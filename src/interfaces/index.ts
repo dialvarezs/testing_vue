@@ -13,3 +13,8 @@ export interface User {
     isActive: boolean
     groups: Group[]
 }
+
+export interface Token {
+    accessToken: string
+    tokenType: string
+}

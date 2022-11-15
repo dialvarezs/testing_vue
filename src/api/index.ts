@@ -1,4 +1,5 @@
 import camelcaseKeys from 'camelcase-keys'
+import { useTokenStore } from '../stores/token'
 
 const BASE_URL = 'http://localhost:8000'
 
@@ -8,6 +9,15 @@ async function apiFetch<T>(
   body: BodyInit | null | undefined = undefined,
   headers: HeadersInit | Record<string, never> = {}
 ): Promise<T> {
+  const tokenStore = useTokenStore()
+
+  if (tokenStore.isAuthenticated) {
+    headers = {
+      ...headers,
+      Authorization: `${tokenStore.tokenType} ${tokenStore.token}`,
+    }
+  }
+
   url = new URL(url, BASE_URL).href
 
   return fetch(url, { method, body, headers }).then(async (response) => {

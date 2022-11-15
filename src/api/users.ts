@@ -5,4 +5,8 @@ async function getUsers(): Promise<User[]> {
     return apiFetch('/users')
 }
 
-export { getUsers }
+async function getUserMe(): Promise<User> {
+    return apiFetch('/users/me')
+}
+
+export { getUsers, getUserMe }
