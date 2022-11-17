@@ -14,6 +14,14 @@ export interface User {
   groups: Group[]
 }
 
+export interface NewUser {
+  username: string
+  fullname: string
+  password: string
+  age?: number | null
+  groups?: number[]
+}
+
 export interface Token {
   accessToken: string
   tokenType: string

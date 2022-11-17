@@ -6,6 +6,7 @@
     <router-link :to="{ name: 'Items' }">[Items]</router-link>
     <router-link :to="{ name: 'Login' }">[Login]</router-link>
     <router-link :to="{ name: 'Me' }">[Me]</router-link>
+    <router-link :to="{ name: 'NewUser' }">[NewUser]</router-link>
   </div>
 
   <router-view></router-view>

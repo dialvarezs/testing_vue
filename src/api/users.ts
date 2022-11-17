@@ -1,5 +1,5 @@
 import { apiFetch } from '.'
-import { User } from '../interfaces'
+import { NewUser, User } from '../interfaces'
 
 async function getUsers(): Promise<User[]> {
   return apiFetch('/users')
@@ -9,4 +9,10 @@ async function getUserMe(): Promise<User> {
   return apiFetch('/users/me')
 }
 
-export { getUsers, getUserMe }
+async function postUser(userData: NewUser): Promise<User> {
+  return apiFetch('/users/', 'POST', JSON.stringify(userData), {
+    'Content-Type': 'application/json',
+  })
+}
+
+export { getUsers, getUserMe, postUser }
