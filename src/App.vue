@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
@@ -12,6 +11,4 @@
   <router-view></router-view>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

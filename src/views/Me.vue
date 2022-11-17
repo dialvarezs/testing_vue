@@ -1,16 +1,17 @@
-<script setup lang="ts">import { Ref, ref } from 'vue';
-import { getUserMe } from '../api/users';
-import { User } from '../interfaces';
+<script setup lang="ts">
+  import { Ref, ref } from 'vue'
+  import { getUserMe } from '../api/users'
+  import { User } from '../interfaces'
 
-const user: Ref<User | null> = ref(null)
+  const user: Ref<User | null> = ref(null)
 
-async function fetchMyUser() {
+  async function fetchMyUser() {
     user.value = await getUserMe()
-}
+  }
 
-fetchMyUser()
+  fetchMyUser()
 </script>
 
 <template>
-    {{ user }}
+  {{ user }}
 </template>
