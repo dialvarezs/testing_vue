@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 interface TokenState {
   token: string | null
   tokenType: string | null
+  user: string | null
 }
 
 export const useTokenStore = defineStore({
@@ -10,6 +11,7 @@ export const useTokenStore = defineStore({
   state: (): TokenState => ({
     token: localStorage.getItem('token') || null,
     tokenType: localStorage.getItem('tokenType') || null,
+    user: localStorage.getItem('user') || null,
   }),
   getters: {
     isAuthenticated: (state: TokenState) => state.token != null,
@@ -22,5 +24,10 @@ export const useTokenStore = defineStore({
       localStorage.setItem('token', token)
       localStorage.setItem('tokenType', tokenType)
     },
+    setUser(user: string) {
+      this.user = user
+
+      localStorage.setItem('user', user)
+    }
   },
 })
