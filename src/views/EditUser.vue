@@ -8,6 +8,5 @@
 <template>
   <v-container>
     <PageHeader title="Editar Usuario" />
-	{{ route }}
   </v-container>
 </template>
