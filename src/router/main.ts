@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import ListUsers from '@/views/ListUsers.vue'
 import NewUser from '@/views/NewUser.vue'
+import EditUser from '@/views/EditUser.vue'
 
 const routes: RouteRecordRaw[] = [
   { path: '', component: Home, name: 'Home', meta: { requiresAuth: true } },
@@ -19,6 +20,12 @@ const routes: RouteRecordRaw[] = [
     name: 'NewUser',
     meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
   },
+  {
+	path: '/users/:id/edit',
+	component: EditUser,
+	name: 'EditUser',
+	meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
+  }
 ]
 
 export default routes

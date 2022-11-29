@@ -40,6 +40,7 @@
               <th>Nombre</th>
               <th>Activo</th>
               <th>Grupos</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +56,14 @@
                 >
                   {{ group.name }}
                 </v-chip>
+              </td>
+              <td>
+                <v-btn
+                  :to="{ name: 'EditUser', params: { id: user.id } }"
+                  prepend-icon="mdi-pencil"
+                  variant="outlined"
+                  color="teal"
+                ></v-btn>
               </td>
             </tr>
           </tbody>
