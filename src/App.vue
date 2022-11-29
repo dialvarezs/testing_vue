@@ -1,24 +1,32 @@
 <script setup lang="ts">
-import { useTokenStore } from './stores/token'
+  import { useRouter } from 'vue-router'
+  import { useTokenStore } from './stores/token'
 
-const tokenStore = useTokenStore()
+  const tokenStore = useTokenStore()
+  const router = useRouter()
+
+  async function logout() {
+    tokenStore.clearData()
+    await router.push({ name: 'Login' })
+  }
 </script>
 
 <template>
   <v-app>
-    <v-app-bar app v-if="tokenStore.isAuthenticated">
-      <v-toolbar-title>Application</v-toolbar-title>
-      <v-btn>A</v-btn>
-      <span class="mx-3">Hola, {{ tokenStore.user }}</span>
+    <v-app-bar v-if="tokenStore.isAuthenticated" class="bg-teal-darken-1">
+      <v-toolbar-title>
+        <span class="mr-12">MyApp</span>
+        <v-btn :to="{name: 'Home'}">Inicio</v-btn>
+        <v-btn :to="{name: 'ListUsers'}">Usuarios</v-btn>
+      </v-toolbar-title>
+      <span class="mx-3">Hola, {{ tokenStore.user?.fullname }}</span>
+      <v-btn variant="tonal" @click="logout">Cerrar sesion</v-btn>
     </v-app-bar>
 
-    <v-spacer></v-spacer>
-    <v-main class="bg-grey-lighten-2">
+    <v-main class="bg-grey-lighten-5">
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

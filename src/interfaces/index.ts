@@ -19,7 +19,7 @@ export interface NewUser {
   fullname: string
   password: string
   age?: number | null
-  groups?: number[]
+  groupIds?: number[]
 }
 
 export interface Token {

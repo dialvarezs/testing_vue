@@ -1,5 +1,5 @@
-import { apiFetch } from '.'
-import { NewUser, User } from '../interfaces'
+import { apiFetch } from '@/api'
+import { Group, NewUser, User } from '@/interfaces'
 
 async function getUsers(): Promise<User[]> {
   return apiFetch('/users')
@@ -15,4 +15,8 @@ async function postUser(userData: NewUser): Promise<User> {
   })
 }
 
-export { getUsers, getUserMe, postUser }
+async function getGroups(): Promise<Group[]> {
+  return apiFetch('/groups')
+}
+
+export { getUsers, getUserMe, postUser, getGroups }

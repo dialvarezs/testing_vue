@@ -1,64 +1,89 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { login } from '../api/auth'
-import { useTokenStore } from '../stores/token'
-import { useRouter } from 'vue-router'
-import { getUserMe } from '../api/users';
+  import { computed, ref } from 'vue'
+  import { login } from '@/api/auth'
+  import { useTokenStore } from '@/stores/token'
+  import { useRouter } from 'vue-router'
+  import { getUserMe } from '@/api/users'
 
-const tokenStore = useTokenStore()
-const username = ref('')
-const password = ref('')
-const errorMessage = ref('')
+  const tokenStore = useTokenStore()
+  const username = ref('')
+  const password = ref('')
+  const errorMessage = ref('')
+  const loading = ref(false)
 
-const router = useRouter()
+  const router = useRouter()
 
-async function sendLogin() {
-  try {
-    errorMessage.value = ''
-    const token = await login(username.value, password.value)
-    tokenStore.setToken(token.accessToken, token.tokenType)
+  const loginEnabled = computed(() => {
+    return username.value.length > 0 && password.value.length > 0
+  })
 
-    const user = await getUserMe()
-    tokenStore.setUser(user.fullname)
+  async function sendLogin() {
+    try {
+      errorMessage.value = ''
+      loading.value = true
+      const token = await login(username.value, password.value)
+      tokenStore.setToken(token.accessToken, token.tokenType)
 
-    router.push({name: 'Home'})
-  } catch (error: any) {
-    errorMessage.value = `ERROR: ${error.message}`
+      const user = await getUserMe()
+      tokenStore.setUser(user)
+
+      router.push({ name: 'Home' })
+    } catch (error: any) {
+      errorMessage.value = `ERROR: ${error.message}`
+    } finally {
+      loading.value = false
+    }
   }
-}
+
+  // logouts to clear user data
+  tokenStore.clearData()
 </script>
 
 <template>
-  <v-container fluid class="bg-gray">
-    <v-row>
-      <v-col cols="3" class="mx-auto">
+  <v-container fluid class="d-flex fill-height bg-teal-lighten-3">
+    <v-row align="center" justify="center">
+      <v-col cols="3">
         <v-card class="px-6 py-8">
           <v-form>
-            <v-text-field label="Usuario" v-model="username">
+            <v-text-field
+              prepend-inner-icon="mdi-account"
+              label="Usuario"
+              v-model="username"
+            >
             </v-text-field>
-            <v-text-field type="password" label="Contraseña" v-model="password">
+            <v-text-field
+              prepend-inner-icon="mdi-lock"
+              type="password"
+              label="Contraseña"
+              v-model="password"
+            >
             </v-text-field>
           </v-form>
           <div v-if="errorMessage">
-            <v-alert type="error" class="mt-4">
+            <v-alert
+              type="error"
+              density="compact"
+              variant="tonal"
+              class="mb-2"
+            >
               {{ errorMessage }}
             </v-alert>
           </div>
-          <v-card-actions>
-            <v-btn variant="flat" color="green" @click="sendLogin">Ingresar</v-btn>
+          <v-card-actions class="pa-0">
+            <v-btn
+              block
+              variant="flat"
+              color="teal"
+              size="large"
+              :loading="loading"
+              :disabled="!loginEnabled"
+              @click="sendLogin"
+            >
+              Ingresar
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
-
-<style scoped>
-.error-message {
-  color: red;
-}
-
-.success-message {
-  color: green;
-}
-</style>
