@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useRouter } from 'vue-router'
-  import { useTokenStore } from './stores/token'
-  import { checkRoutePermission } from './utilities'
+  import { useTokenStore } from '@/stores/token'
+  import { checkRoutePermission } from '@/utilities'
 
   const tokenStore = useTokenStore()
   const router = useRouter()
