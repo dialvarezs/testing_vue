@@ -1,3 +1,4 @@
+import snakecaseKeys from 'snakecase-keys'
 import { apiFetch } from '@/api'
 import { Group, NewUser, User } from '@/interfaces'
 
@@ -10,7 +11,7 @@ async function getUserMe(): Promise<User> {
 }
 
 async function postUser(userData: NewUser): Promise<User> {
-  return apiFetch('/users/', 'POST', JSON.stringify(userData), {
+  return apiFetch('/users/', 'POST', JSON.stringify(snakecaseKeys(userData)), {
     'Content-Type': 'application/json',
   })
 }

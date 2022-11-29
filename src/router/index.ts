@@ -1,19 +1,26 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import ListUsers from '@/views/ListUsers.vue'
-import NewUser from '@/views/NewUser.vue'
+import { useTokenStore } from '@/stores/token'
+import mainRoutes from '@/router/main'
 
 const routes: RouteRecordRaw[] = [
-  { path: '', component: Home, name: 'Home' },
-  { path: '/login', component: Login, name: 'Login' },
-  { path: '/users', component: ListUsers, name: 'ListUsers' },
-  { path: '/users/new', component: NewUser, name: 'NewUser' },
+  ...mainRoutes,
+  { path: '/:catchAll(.*)', redirect: '/' },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const { isAuthenticated } = useTokenStore()
+
+  if (to.matched.some((route) => route.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next({ name: 'Login' })
+    }
+  }
+  next()
 })
 
 export default router

@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { useRouter } from 'vue-router'
   import { useTokenStore } from './stores/token'
+  import { checkRoutePermission } from './utilities'
 
   const tokenStore = useTokenStore()
   const router = useRouter()
@@ -9,6 +10,8 @@
     tokenStore.clearData()
     await router.push({ name: 'Login' })
   }
+
+  console.log(checkRoutePermission('ListUsers'))
 </script>
 
 <template>
@@ -16,8 +19,12 @@
     <v-app-bar v-if="tokenStore.isAuthenticated" class="bg-teal-darken-1">
       <v-toolbar-title>
         <span class="mr-12">MyApp</span>
-        <v-btn :to="{name: 'Home'}">Inicio</v-btn>
-        <v-btn :to="{name: 'ListUsers'}">Usuarios</v-btn>
+        <v-btn :to="{ name: 'Home' }">Inicio</v-btn>
+        <v-btn
+          v-show="checkRoutePermission('ListUsers')"
+          :to="{ name: 'ListUsers' }"
+          >Usuarios</v-btn
+        >
       </v-toolbar-title>
       <span class="mx-3">Hola, {{ tokenStore.user?.fullname }}</span>
       <v-btn variant="tonal" @click="logout">Cerrar sesion</v-btn>
