@@ -21,11 +21,11 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
   },
   {
-	path: '/users/:id/edit',
-	component: EditUser,
-	name: 'EditUser',
-	meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
-  }
+    path: '/users/:id/edit',
+    component: EditUser,
+    name: 'EditUser',
+    meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
+  },
 ]
 
 export default routes
