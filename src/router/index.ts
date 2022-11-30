@@ -20,9 +20,9 @@ router.beforeEach((to, from, next) => {
     if (!isAuthenticated) {
       next({ name: 'Login' })
     }
-    if (!checkRoutePermission(to.name as string)) {
-      next({ name: 'Home' })
-    }
+    // if (!checkRoutePermission(to.name as string)) {
+    //   next({ name: 'Home' })
+    // }
   }
   next()
 })
