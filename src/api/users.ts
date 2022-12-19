@@ -7,12 +7,10 @@ async function getUsers(): Promise<User[]> {
   return apiFetch('/users')
 }
 
-async function getUser(userId: number): Promise<User> {
-  return apiFetch(`/users/${userId}`)
-}
-
-async function getUserMe(): Promise<User> {
-  return apiFetch('/users/me')
+async function getUser(userId: number | null = null): Promise<User> {
+  // if userId is not provided, get current user
+  const url = userId === null ? '/users/me' : `/users/${userId}`
+  return apiFetch(url)
 }
 
 async function postUser(userData: UserEdit): Promise<User> {
@@ -38,6 +36,23 @@ async function setUserImage(userId: number, image: File): Promise<void> {
   return apiFetch(`/users/${userId}/image`, 'POST', formData)
 }
 
+async function changePassword(
+  oldPassword: string,
+  newPassword: string,
+  userId: number | null = null
+): Promise<void> {
+  const url = `/users/${userId === null ? 'me' : userId}/change-password`
+
+  return apiFetch(
+    url,
+    'POST',
+    JSON.stringify(snakecaseKeys({ oldPassword, newPassword })),
+    {
+      'Content-Type': 'application/json',
+    }
+  )
+}
+
 async function getGroups(): Promise<Group[]> {
   return apiFetch('/groups')
 }
@@ -45,9 +60,9 @@ async function getGroups(): Promise<Group[]> {
 export {
   getUsers,
   getUser,
-  getUserMe,
   postUser,
   patchUser,
   setUserImage,
+  changePassword,
   getGroups,
 }

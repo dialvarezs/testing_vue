@@ -1,3 +1,4 @@
+import ChangePassword from '@/views/ChangePassword.vue'
 import EditUser from '@/views/EditUser.vue'
 import Home from '@/views/Home.vue'
 import ListUsers from '@/views/ListUsers.vue'
@@ -8,6 +9,18 @@ import { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   { path: '', component: Home, name: 'Home', meta: { requiresAuth: true } },
   { path: '/login', component: Login, name: 'Login' },
+  {
+    path: '/change-password/me',
+    component: ChangePassword,
+    name: 'ChangePasswordMe',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/change-password/:id',
+    component: ChangePassword,
+    name: 'ChangePassword',
+    meta: { requiresAuth: true, allowedGroups: ['user_manager'] },
+  },
   {
     path: '/users',
     component: ListUsers,

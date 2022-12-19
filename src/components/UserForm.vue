@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { Ref, computed, ref, watch, watchEffect } from 'vue'
 
+  import PasswordInput from '@/components/PasswordInput.vue'
+
   import { getGroups, getUsers } from '@/api/users'
   import { Group, User, UserEdit } from '@/interfaces'
 
@@ -31,7 +33,6 @@
   const existingUsers: Ref<User[]> = ref([])
   const groups: Ref<Group[]> = ref([])
   const updateImage: Ref<boolean> = ref(false)
-  const showPassword: Ref<boolean> = ref(false)
 
   // clean up image data when the user cancels the image update
   watch(updateImage, (newValue) => {
@@ -91,15 +92,12 @@
       label="Nombre"
       :rules="rules.fullname"
     ></v-text-field>
-    <v-text-field
+    <PasswordInput
       v-if="isNew"
       v-model="userData.password"
       label="Contraseña"
-      :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="showPassword ? 'text' : 'password'"
       :rules="rules.password"
-      @click:append-inner="showPassword = !showPassword"
-    ></v-text-field>
+    />
     <v-text-field
       v-model="userData.age"
       label="Edad"

@@ -1,5 +1,6 @@
 import camelcaseKeys from 'camelcase-keys'
-import { useRouter } from 'vue-router'
+
+import router from '@/router'
 
 import { useTokenStore } from '../stores/token'
 
@@ -11,7 +12,6 @@ async function apiFetch<T>(
   body: BodyInit | null | undefined = undefined,
   headers: HeadersInit | Record<string, never> = {}
 ): Promise<T> {
-  const router = useRouter()
   const tokenStore = useTokenStore()
 
   if (tokenStore.isAuthenticated) {

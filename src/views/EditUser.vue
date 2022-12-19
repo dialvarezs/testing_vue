@@ -66,7 +66,7 @@
 
 <template>
   <v-container>
-    <PageHeader :title="`Editar Usuario <${userData.username}>`" />
+    <PageHeader :title="`Modificar Usuario <${userData.username}>`" />
     <v-row v-if="userData.imagePath" justify="center" class="mt-6">
       <v-col cols="2">
         <v-img :src="getImageUrl(userData.imagePath)" />

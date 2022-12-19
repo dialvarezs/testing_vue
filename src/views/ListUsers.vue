@@ -67,15 +67,35 @@
                 </v-chip>
               </td>
               <td>
-                <v-btn
-                  :to="{ name: 'EditUser', params: { id: user.id } }"
-                  icon
-                  size="x-small"
-                  variant="outlined"
-                  color="teal"
-                >
-                  <v-icon icon="mdi-pencil" />
-                </v-btn>
+                <v-tooltip text="modificar usuario" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      :to="{ name: 'EditUser', params: { id: user.id } }"
+                      v-bind="props"
+                      icon
+                      size="x-small"
+                      variant="outlined"
+                      color="teal"
+                      class="mr-2"
+                    >
+                      <v-icon icon="mdi-pencil" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
+                <v-tooltip text="cambiar contraseña" location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      :to="{ name: 'ChangePassword', params: { id: user.id } }"
+                      v-bind="props"
+                      icon
+                      size="x-small"
+                      variant="outlined"
+                      color="teal"
+                    >
+                      <v-icon icon="mdi-key" />
+                    </v-btn>
+                  </template>
+                </v-tooltip>
               </td>
             </tr>
           </tbody>

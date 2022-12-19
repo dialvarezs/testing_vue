@@ -24,8 +24,9 @@
         <v-btn
           v-show="checkRoutePermission('ListUsers')"
           :to="{ name: 'ListUsers' }"
-          >Usuarios</v-btn
         >
+          Usuarios
+        </v-btn>
         <v-menu bottom offset-y close-on-click>
           <template #activator="{ props }">
             <v-btn prepend-icon="mdi-account" v-bind="props">
@@ -33,10 +34,11 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item link>
-              <v-list-item-title @click="logout">
-                Cerrar Sesión
-              </v-list-item-title>
+            <v-list-item link :to="{ name: 'ChangePasswordMe' }">
+              <v-list-item-title> Cambiar Contraseña </v-list-item-title>
+            </v-list-item>
+            <v-list-item link @click="logout">
+              <v-list-item-title> Cerrar Sesión </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>

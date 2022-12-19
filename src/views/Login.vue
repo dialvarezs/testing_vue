@@ -3,7 +3,7 @@
   import { useRouter } from 'vue-router'
 
   import { login } from '@/api/auth'
-  import { getUserMe } from '@/api/users'
+  import { getUser } from '@/api/users'
   import { useTokenStore } from '@/stores/token'
 
   const tokenStore = useTokenStore()
@@ -25,7 +25,7 @@
       const token = await login(username.value, password.value)
       tokenStore.setToken(token.accessToken, token.tokenType)
 
-      const user = await getUserMe()
+      const user = await getUser()
       tokenStore.setUser(user)
 
       router.push({ name: 'Home' })
