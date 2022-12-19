@@ -60,10 +60,13 @@
               <td>
                 <v-btn
                   :to="{ name: 'EditUser', params: { id: user.id } }"
-                  prepend-icon="mdi-pencil"
+                  icon
+                  size="x-small"
                   variant="outlined"
                   color="teal"
-                ></v-btn>
+                >
+                  <v-icon icon="mdi-pencil" />
+                </v-btn>
               </td>
             </tr>
           </tbody>

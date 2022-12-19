@@ -1,49 +1,41 @@
 <script setup lang="ts">
-  import PageHeader from '@/components/PageHeader.vue'
-  import { reactive, Ref, ref } from 'vue'
-  import { getGroups, postUser } from '@/api/users'
-  import { Group, NewUser } from '@/interfaces'
+  import { reactive, ref, Ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { UserEdit } from '@/interfaces'
+  import { postUser } from '@/api/users'
+  import PageHeader from '@/components/PageHeader.vue'
+  import UserForm from '@/components/UserForm.vue'
 
   const router = useRouter()
 
-  const newUserData: NewUser = reactive({
+  const userData = reactive<UserEdit>({
     username: '',
     fullname: '',
     password: '',
     age: null,
     groupIds: [],
   })
-  const groups: Ref<Group[]> = ref([])
-  const showPassword: Ref<boolean> = ref(false)
+  const saving: Ref<boolean> = ref(false)
+  const errorMessage: Ref<string> = ref('')
 
-  const form: Ref<any> = ref(null)
-  const valid: Ref<boolean> = ref(false)
-  const rules = {
-    user: [(v: string) => !!v || 'El usuario es requerido'],
-    fullname: [(v: string) => !!v || 'El nombre es requerido'],
-    password: [(v: string) => !!v || 'La contraseña es requerida'],
-  }
-
-  async function fetchGroups() {
-    groups.value = await getGroups()
-  }
-
-  async function submitNewUser() {
-    const { valid } = await form.value.validate()
-
-    if (valid) {
-      try {
-        const createdUser = await postUser(newUserData)
-        console.info('Created user', createdUser)
-        router.push({ name: 'ListUsers' })
-      } catch (error: any) {
-        console.error(error)
+  async function submitNewUser(userData: UserEdit) {
+    saving.value = true
+    errorMessage.value = ''
+    try {
+      const createdUser = await postUser(userData)
+      console.info('Created user', createdUser)
+      router.push({ name: 'ListUsers' })
+    } catch (error: any) {
+      if (error.message) {
+        errorMessage.value = error.message
+      } else {
+        errorMessage.value = 'Error creating user'
       }
+      console.error(error)
+    } finally {
+      saving.value = false
     }
   }
-
-  fetchGroups()
 </script>
 
 <template>
@@ -51,49 +43,14 @@
     <PageHeader title="Nuevo Usuario" />
     <v-row justify="center" class="mt-6">
       <v-col cols="6">
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="newUserData.username"
-            label="Usuario"
-            :rules="rules.user"
-          ></v-text-field>
-          <v-text-field
-            v-model="newUserData.fullname"
-            label="Nombre"
-            :rules="rules.fullname"
-          ></v-text-field>
-          <v-text-field
-            v-model="newUserData.password"
-            label="Contraseña"
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            :rules="rules.password"
-            @click:append-inner="showPassword = !showPassword"
-          ></v-text-field>
-          <v-text-field
-            v-model="newUserData.age"
-            label="Edad"
-            type="number"
-          ></v-text-field>
-          <v-select
-            v-model="newUserData.groupIds"
-            :items="groups"
-            item-title="name"
-            item-value="id"
-            multiple
-            chips
-            label="Grupos"
-          >
-          </v-select>
-
-          <v-btn color="teal" class="mr-4" @click="submitNewUser">
-            Guardar
-          </v-btn>
-
-          <v-btn :to="{ name: 'ListUsers' }" color="grey" class="mr-4">
-            Cancelar
-          </v-btn>
-        </v-form>
+        <UserForm
+          :user-data="userData"
+          is-new
+          :error-message="errorMessage"
+          :saving="saving"
+          @submit="submitNewUser"
+          @cancel="router.push({ name: 'ListUsers' })"
+        />
       </v-col>
     </v-row>
   </v-container>

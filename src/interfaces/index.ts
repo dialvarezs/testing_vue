@@ -14,10 +14,11 @@ export interface User {
   groups: Group[]
 }
 
-export interface NewUser {
+export interface UserEdit {
   username: string
   fullname: string
-  password: string
+  password?: string
+  isActive?: boolean
   age?: number | null
   groupIds?: number[]
 }

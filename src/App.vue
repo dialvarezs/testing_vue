@@ -15,17 +15,31 @@
 <template>
   <v-app>
     <v-app-bar v-if="tokenStore.isAuthenticated" class="bg-teal-darken-1">
-      <v-toolbar-title>
-        <span class="mr-12">MyApp</span>
+      <v-toolbar-title class="">
+        <span>MyApp</span>
+      </v-toolbar-title>
+      <v-toolbar-items>
         <v-btn :to="{ name: 'Home' }">Inicio</v-btn>
         <v-btn
           v-show="checkRoutePermission('ListUsers')"
           :to="{ name: 'ListUsers' }"
           >Usuarios</v-btn
         >
-      </v-toolbar-title>
-      <span class="mx-3">Hola, {{ tokenStore.user?.fullname }}</span>
-      <v-btn variant="tonal" @click="logout">Cerrar sesion</v-btn>
+        <v-menu bottom offset-y close-on-click>
+          <template #activator="{ props }">
+            <v-btn prepend-icon="mdi-account" v-bind="props">
+              {{ tokenStore.user?.fullname }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item link>
+              <v-list-item-title @click="logout">
+                Cerrar Sesión
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-5">
