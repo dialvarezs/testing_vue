@@ -15,9 +15,8 @@ function checkRoutePermission(
       return user.groups.some((group: Group) =>
         (route.meta.allowedGroups as string[]).includes(group.name)
       )
-    } else {
-      return true
     }
+    return true
   }
 
   return false

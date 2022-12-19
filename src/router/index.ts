@@ -1,7 +1,19 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory,
+  RouteLocationNormalized,
+  RouteRecordRaw,
+} from 'vue-router'
 import { useTokenStore } from '@/stores/token'
 import mainRoutes from '@/router/main'
 import { checkRoutePermission } from '@/utilities'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth: boolean
+    allowedGroups?: string[]
+  }
+}
 
 const routes: RouteRecordRaw[] = [
   ...mainRoutes,
@@ -13,18 +25,19 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
-  const { isAuthenticated } = useTokenStore()
+router.beforeEach(
+  (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+    const { isAuthenticated } = useTokenStore()
 
-  if (to.matched.some((route) => route.meta.requiresAuth)) {
-    if (!isAuthenticated) {
-      next({ name: 'Login' })
+    if (to.meta.requiresAuth) {
+      if (!isAuthenticated) {
+        return { name: 'Login', query: { redirect: to.fullPath } }
+      }
+      if (!checkRoutePermission(to.name as string, to.params as {})) {
+        return { name: 'Home' }
+      }
     }
-    // if (!checkRoutePermission(to.name as string)) {
-    //   next({ name: 'Home' })
-    // }
   }
-  next()
-})
+)
 
 export default router

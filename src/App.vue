@@ -10,8 +10,6 @@
     tokenStore.clearData()
     await router.push({ name: 'Login' })
   }
-
-  console.log(checkRoutePermission('ListUsers'))
 </script>
 
 <template>
