@@ -32,8 +32,22 @@ async function patchUser(userId: number, userData: UserEdit): Promise<User> {
   )
 }
 
+async function setUserImage(userId: number, image: File): Promise<void> {
+  const formData = new FormData()
+  formData.append('file', image)
+  return apiFetch(`/users/${userId}/image`, 'POST', formData)
+}
+
 async function getGroups(): Promise<Group[]> {
   return apiFetch('/groups')
 }
 
-export { getUsers, getUser, getUserMe, postUser, patchUser, getGroups }
+export {
+  getUsers,
+  getUser,
+  getUserMe,
+  postUser,
+  patchUser,
+  setUserImage,
+  getGroups,
+}

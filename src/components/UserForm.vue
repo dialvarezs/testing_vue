@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Ref, computed, ref, watchEffect } from 'vue'
+  import { Ref, computed, ref, watch, watchEffect } from 'vue'
 
   import { getGroups, getUsers } from '@/api/users'
   import { Group, User, UserEdit } from '@/interfaces'
@@ -30,7 +30,15 @@
 
   const existingUsers: Ref<User[]> = ref([])
   const groups: Ref<Group[]> = ref([])
+  const updateImage: Ref<boolean> = ref(false)
   const showPassword: Ref<boolean> = ref(false)
+
+  // clean up image data when the user cancels the image update
+  watch(updateImage, (newValue) => {
+    if (newValue === false) {
+      props.userData.image = undefined
+    }
+  })
 
   const availableUsername = computed(() => {
     return !existingUsers.value
@@ -112,6 +120,19 @@
       v-model="userData.isActive"
       label="Activo"
     ></v-checkbox>
+    <v-checkbox
+      v-if="!isNew"
+      v-model="updateImage"
+      label="Modificar Imagen"
+    ></v-checkbox>
+    <v-file-input
+      v-if="isNew || updateImage"
+      v-model="userData.image"
+      accept="image/png, image/jpeg, image/bmp"
+      label="Imagen de Perfil"
+      clearable
+      show-size
+    ></v-file-input>
 
     <v-alert
       v-if="errorMessage != ''"

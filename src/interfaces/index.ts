@@ -20,6 +20,7 @@ export interface UserEdit {
   password?: string
   isActive?: boolean
   age?: number | null
+  image?: File[]
   groupIds?: number[]
 }
 

@@ -5,6 +5,7 @@
 
   import { getUsers } from '@/api/users'
   import { User } from '@/interfaces'
+  import { getImageUrl } from '@/utilities'
 
   const users: Ref<User[]> = ref([])
 
@@ -38,6 +39,7 @@
         <v-table v-if="users.length > 0">
           <thead>
             <tr>
+              <th></th>
               <th>Usuario</th>
               <th>Nombre</th>
               <th>Activo</th>
@@ -47,6 +49,11 @@
           </thead>
           <tbody>
             <tr v-for="user in users" :key="user.id">
+              <td>
+                <v-avatar v-if="user.imagePath" size="32">
+                  <v-img :src="getImageUrl(user.imagePath)"> </v-img>
+                </v-avatar>
+              </td>
               <td>{{ user.username }}</td>
               <td>{{ user.fullname }}</td>
               <td><v-icon :icon="activeIcon(user)"></v-icon></td>

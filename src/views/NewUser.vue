@@ -5,7 +5,7 @@
   import PageHeader from '@/components/PageHeader.vue'
   import UserForm from '@/components/UserForm.vue'
 
-  import { postUser } from '@/api/users'
+  import { postUser, setUserImage } from '@/api/users'
   import { UserEdit } from '@/interfaces'
 
   const router = useRouter()
@@ -15,6 +15,7 @@
     fullname: '',
     password: '',
     age: null,
+    image: [],
     groupIds: [],
   })
   const saving: Ref<boolean> = ref(false)
@@ -26,6 +27,12 @@
     try {
       const createdUser = await postUser(userData)
       console.info('Created user', createdUser)
+
+      // If image field was set, upload the user image
+      if (userData.image && userData.image.length > 0) {
+        await setUserImage(createdUser.id, userData.image[0])
+      }
+
       router.push({ name: 'ListUsers' })
     } catch (error: any) {
       if (error.message) {

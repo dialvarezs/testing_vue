@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/api'
 import { Group } from '@/interfaces'
 import router from '@/router'
 import { useTokenStore } from '@/stores/token'
@@ -22,4 +23,8 @@ function checkRoutePermission(
   return false
 }
 
-export { checkRoutePermission }
+function getImageUrl(image: string): string {
+  return `${BASE_URL}${image}`
+}
+
+export { checkRoutePermission, getImageUrl }

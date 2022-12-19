@@ -5,8 +5,9 @@
   import PageHeader from '@/components/PageHeader.vue'
   import UserForm from '@/components/UserForm.vue'
 
-  import { getUser, patchUser } from '@/api/users'
+  import { getUser, patchUser, setUserImage } from '@/api/users'
   import { User, UserEdit } from '@/interfaces'
+  import { getImageUrl } from '@/utilities'
 
   const router = useRouter()
   const route = useRoute()
@@ -37,9 +38,16 @@
   async function submitEditedUser(userData: UserEdit) {
     saving.value = true
     errorMessage.value = ''
+
+    console.info('submitEditedUser', userData)
     try {
       const updatedUser = await patchUser(userId, userData)
       console.info('Updated user', updatedUser)
+
+      if (userData.image !== undefined && userData.image.length > 0) {
+        await setUserImage(userId, userData.image[0])
+      }
+
       router.push({ name: 'ListUsers' })
     } catch (error: any) {
       if (error.message) {
@@ -58,7 +66,12 @@
 
 <template>
   <v-container>
-    <PageHeader title="Editar Usuario" />
+    <PageHeader :title="`Editar Usuario <${userData.username}>`" />
+    <v-row v-if="userData.imagePath" justify="center" class="mt-6">
+      <v-col cols="2">
+        <v-img :src="getImageUrl(userData.imagePath)" />
+      </v-col>
+    </v-row>
     <v-row justify="center" class="mt-6">
       <v-col cols="6">
         <UserForm
