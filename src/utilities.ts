@@ -1,6 +1,6 @@
+import { Group } from '@/interfaces'
 import router from '@/router'
 import { useTokenStore } from '@/stores/token'
-import { Group } from '@/interfaces'
 
 function checkRoutePermission(
   routeName: string,

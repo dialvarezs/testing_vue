@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+
 import { User } from '@/interfaces'
+
 import { getStorageItem } from './utils'
 
 interface TokenState {

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+  import { Ref, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+
   import PageHeader from '@/components/PageHeader.vue'
-  import { ref, Ref } from 'vue'
-  import { User, UserEdit } from '@/interfaces'
-  import { getUser, patchUser } from '@/api/users'
   import UserForm from '@/components/UserForm.vue'
+
+  import { getUser, patchUser } from '@/api/users'
+  import { User, UserEdit } from '@/interfaces'
 
   const router = useRouter()
   const route = useRoute()

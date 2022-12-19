@@ -1,4 +1,6 @@
 import camelcaseKeys from 'camelcase-keys'
+import { useRouter } from 'vue-router'
+
 import { useTokenStore } from '../stores/token'
 
 const BASE_URL = 'http://localhost:8000'
@@ -9,6 +11,7 @@ async function apiFetch<T>(
   body: BodyInit | null | undefined = undefined,
   headers: HeadersInit | Record<string, never> = {}
 ): Promise<T> {
+  const router = useRouter()
   const tokenStore = useTokenStore()
 
   if (tokenStore.isAuthenticated) {
@@ -22,6 +25,12 @@ async function apiFetch<T>(
 
   return fetch(url, { method, body, headers }).then(async (response) => {
     if (!response.ok) {
+      // if status code is 401 (unauthorized), clean token store and redirect to login page
+      if (response.status === 401) {
+        tokenStore.clearData()
+        router.push({ name: 'Login' })
+      }
+
       const text = await response.text()
       let detail: string
 

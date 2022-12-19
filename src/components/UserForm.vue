@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { Group, User, UserEdit } from '@/interfaces'
-  import { computed, ref, Ref, watchEffect } from 'vue'
+  import { Ref, computed, ref, watchEffect } from 'vue'
+
   import { getGroups, getUsers } from '@/api/users'
+  import { Group, User, UserEdit } from '@/interfaces'
 
   interface Props {
     userData: UserEdit

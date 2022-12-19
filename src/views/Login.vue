@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { login } from '@/api/auth'
-  import { useTokenStore } from '@/stores/token'
   import { useRouter } from 'vue-router'
+
+  import { login } from '@/api/auth'
   import { getUserMe } from '@/api/users'
+  import { useTokenStore } from '@/stores/token'
 
   const tokenStore = useTokenStore()
   const username = ref('')

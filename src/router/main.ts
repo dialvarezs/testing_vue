@@ -1,9 +1,9 @@
-import { RouteRecordRaw } from 'vue-router'
-import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
-import ListUsers from '@/views/ListUsers.vue'
-import NewUser from '@/views/NewUser.vue'
 import EditUser from '@/views/EditUser.vue'
+import Home from '@/views/Home.vue'
+import ListUsers from '@/views/ListUsers.vue'
+import Login from '@/views/Login.vue'
+import NewUser from '@/views/NewUser.vue'
+import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   { path: '', component: Home, name: 'Home', meta: { requiresAuth: true } },

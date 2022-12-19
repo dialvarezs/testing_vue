@@ -1,6 +1,7 @@
 import snakecaseKeys from 'snakecase-keys'
+
 import { apiFetch } from '@/api'
-import { Group, UserEdit, User } from '@/interfaces'
+import { Group, User, UserEdit } from '@/interfaces'
 
 async function getUsers(): Promise<User[]> {
   return apiFetch('/users')

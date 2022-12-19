@@ -1,11 +1,12 @@
 import {
-  createRouter,
-  createWebHistory,
   RouteLocationNormalized,
   RouteRecordRaw,
+  createRouter,
+  createWebHistory,
 } from 'vue-router'
-import { useTokenStore } from '@/stores/token'
+
 import mainRoutes from '@/router/main'
+import { useTokenStore } from '@/stores/token'
 import { checkRoutePermission } from '@/utilities'
 
 declare module 'vue-router' {

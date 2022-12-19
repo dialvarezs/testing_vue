@@ -1,8 +1,10 @@
 <script setup lang="ts">
-  import { getUsers } from '@/api/users'
-  import PageHeader from '@/components/PageHeader.vue'
-  import { User } from '@/interfaces'
   import { Ref, ref } from 'vue'
+
+  import PageHeader from '@/components/PageHeader.vue'
+
+  import { getUsers } from '@/api/users'
+  import { User } from '@/interfaces'
 
   const users: Ref<User[]> = ref([])
 
